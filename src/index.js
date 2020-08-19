@@ -3,7 +3,6 @@ import fetchCountries from './js/fetchCountries';
 import renderMarkUp from './js/renderMarkUp';
 const debounce = require('lodash.debounce');
 
-
 const refs = {
     countryToSearch: document.querySelector('#country-input'),
     result: document.querySelector('div.result'),
@@ -13,7 +12,7 @@ renderMarkUp.parentElement = refs.result;
 refs.countryToSearch.addEventListener('input', debounce(inputHandler, 500));
 
 function inputHandler(event) {
-    renderMarkUp.clearResults()
+    renderMarkUp.clearResults();
     const value = event.target.value;
     fetchCountries(value)
         .then(response => response.json())
@@ -21,7 +20,6 @@ function inputHandler(event) {
         .catch(console.log);
 }
 function switchResult(data) {
-    console.log(data);
     if (data.length === 1) {
         console.log(data[0]);
         renderMarkUp.singleCountry(data[0]);
@@ -30,6 +28,9 @@ function switchResult(data) {
         renderMarkUp.countriesList(data);
     }
     if (data.length > 10) {
-        renderMarkUp.alertNotify()
+        renderMarkUp.alertMoreThan10();
+    }
+    if (data.status == 404) {
+        renderMarkUp.alertNoResult();
     }
 }
