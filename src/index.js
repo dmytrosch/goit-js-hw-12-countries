@@ -14,6 +14,10 @@ refs.countryToSearch.addEventListener('input', debounce(inputHandler, 500));
 function inputHandler(event) {
     renderMarkUp.clearResults();
     const value = event.target.value;
+    if (value.length === 0) {
+        console.log('returned');
+        return;
+    }
     fetchCountries(value)
         .then(response => response.json())
         .then(data => switchResult(data))
